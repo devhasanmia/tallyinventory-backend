@@ -1,4 +1,5 @@
 export type TUnit = {
     name: string;
-    abbreviation?: string;
+    abbreviation: string;
+    isDelete?: string
 };

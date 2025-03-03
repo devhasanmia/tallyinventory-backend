@@ -7,9 +7,10 @@ const create = z.object({
     }),
     abbreviation: z
         .string({
+            required_error: "abbreviation is required",
             invalid_type_error: "Abbreviation must be a string"
         })
-        .min(1, { message: "Abbreviation cannot be empty" }).optional(),
+        .min(1, { message: "Abbreviation cannot be empty" }),
 });
 
 
@@ -20,6 +21,7 @@ const update = z.object({
     }).optional(),
     abbreviation: z
         .string({
+            required_error: "abbreviation is required",
             invalid_type_error: "Abbreviation must be a string"
         })
         .min(1, { message: "Abbreviation cannot be empty" }).optional(),

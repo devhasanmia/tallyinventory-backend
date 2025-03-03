@@ -10,6 +10,12 @@ const unitSchema = new Schema<TUnit>({
     abbreviation: {
         type: String,
         required: true
+    },
+    isDelete: {
+        type: Boolean,
+        required: true,
+        select: false,
+        default: false
     }
 }, { timestamps: true });
 
