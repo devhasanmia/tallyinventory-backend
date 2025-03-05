@@ -11,7 +11,7 @@ const unitSchema = new Schema<TUnit>({
         type: String,
         required: true
     },
-    isDelete: {
+    isDeleted: {
         type: Boolean,
         required: true,
         select: false,
@@ -24,7 +24,7 @@ const methods = ["find", "findOne", "findById", "findOneAndUpdate"] as const;
 
 methods.forEach((method: any) => {
     unitSchema.pre(method, function (this: Query<any, any>, next: () => void) {
-        this.getQuery().isDelete = { $ne: true };
+        this.getQuery().isDeleted = { $ne: true };
         next();
     });
 });
@@ -35,7 +35,7 @@ unitSchema.pre("aggregate", function(next) {
         return next();
     }
     this.pipeline().unshift({
-        $match: { isDelete: { $ne: true } }
+        $match: { isDeleted: { $ne: true } }
     });
     next();
 });
