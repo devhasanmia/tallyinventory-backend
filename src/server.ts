@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import config from './app/config';
 import app from './app';
 import { defaultUnitSeed } from './app/utils/seeding/unit';
+import { defaultCategorySeed } from './app/utils/seeding/category';
 
 async function main() {
     try {
@@ -12,6 +13,7 @@ async function main() {
             console.log(`🚀 Listening at http://localhost:${config.port}`)
         })
         defaultUnitSeed()
+        defaultCategorySeed()
     } catch (error) {
         console.log(error)
     }

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { UnitRoutes } from "../modules/Unit/unit.route";
+import { CategoryRoutes } from "../modules/Category/category.route";
 
 const router = Router();
 
@@ -7,6 +8,10 @@ const routes = [
     {
         path: "/unit",
         route: UnitRoutes
+    },
+    {
+        path: "/category",
+        route: CategoryRoutes
     },
 ]
 

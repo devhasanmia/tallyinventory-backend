@@ -1,12 +1,8 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors from "cors"
-import { UnitRoutes } from './app/modules/Unit/unit.route';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
-<<<<<<< HEAD
-=======
 import router from './app/routes';
->>>>>>> e8eb868a8adb17b42da9029de9af226693dbef1a
 const app: Application = express()
 
 // Parse incoming JSON requests
@@ -29,8 +25,5 @@ app.use("/api/v1", router );
 app.use(globalErrorHandler)
 // Not Fount Route
 app.use(notFound)
-
-// Not Found route
-app.use(notFound);
 
 export default app
