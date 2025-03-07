@@ -2,7 +2,7 @@ import Unit from "./unit.model";
 import { TUnit } from "./unit.type";
 
 // Create: create Unit
-const createUnit = async(payload: TUnit) => {
+const createUnit = async (payload: TUnit) => {
     try {
         const data = await Unit.create(payload);
         return data
@@ -12,9 +12,19 @@ const createUnit = async(payload: TUnit) => {
 }
 
 // Read (All): getAllUnits
-const getAllUnits = async () => {
+const getAllUnits = async (query) => {
     try {
-        const data = await Unit.find();
+        let searchTerm = "";
+        if (query?.searchTerm) {
+            searchTerm = query?.searchTerm
+        }
+        
+        const data = await Unit.find({
+            $or: ["name", "abbreviation"].map((field) => ({
+                [field]: { $regex: searchTerm, $options: "i" },
+            })),
+        });
+
         return data
     } catch (error) {
         throw error
@@ -33,7 +43,7 @@ const getUnitById = async (id: string) => {
 // Update: updateUnitById
 const updateUnitById = async (id: string, payload: TUnit) => {
     try {
-        const updateUnit = await Unit.findByIdAndUpdate(id,payload,{new:true})
+        const updateUnit = await Unit.findByIdAndUpdate(id, payload, { new: true })
         return updateUnit
     } catch (error) {
         throw error
@@ -44,7 +54,7 @@ const deleteUnitById = async (id: string) => {
     try {
         const deletedUnit = await Unit.findByIdAndUpdate(id, {
             isDelete: true
-        }, {new: true})
+        }, { new: true })
         return deletedUnit
     } catch (error) {
         throw error
@@ -59,3 +69,10 @@ export const UnitService = {
     updateUnitById,
     deleteUnitById
 }
+
+
+// const data = await Unit.find({
+//     $or: ["name", "abbreviation"].map((field) => ({
+//       [field]: { $regex: searchTerm, $options: "i" },
+//     })),
+//   });  
