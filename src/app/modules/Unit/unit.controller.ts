@@ -18,11 +18,12 @@ const createUnit: RequestHandler = async (req, res, next) => {
 const getAllUnits: RequestHandler = async (req, res, next) => {
     try {
         const query = req.query;
-        const data = await UnitService.getAllUnits(query);
+        const result = await UnitService.getAllUnits(query);
         res.status(200).json({
             success: true,
             message: "Unit fetched successfully",
-            data
+            data: result.data,
+            totalStats: result.totalStats
         });
     } catch (error) {
         next(error)

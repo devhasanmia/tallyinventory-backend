@@ -1,3 +1,4 @@
+import {buildQuery } from "../../builder/QueryBuilder";
 import Unit from "./unit.model";
 import { TUnit } from "./unit.type";
 
@@ -12,20 +13,20 @@ const createUnit = async (payload: TUnit) => {
 }
 
 // Read (All): getAllUnits
-const getAllUnits = async (query) => {
+const getAllUnits = async (query: Record<string, unknown>) => {
     try {
-        let searchTerm = "";
-        if (query?.searchTerm) {
-            searchTerm = query?.searchTerm
-        }
-        
-        const data = await Unit.find({
-            $or: ["name", "abbreviation"].map((field) => ({
-                [field]: { $regex: searchTerm, $options: "i" },
-            })),
-        });
-
-        return data
+        const modelQuery = Unit.find();
+        const searchableFields = ['name', 'abbreviation'];
+        const { query: finalQuery, totalStats, } = await buildQuery(
+            modelQuery,
+            query,
+            searchableFields,
+        );
+        const data = await finalQuery;;
+        return {
+            data,
+            totalStats,
+        };
     } catch (error) {
         throw error
     }
@@ -53,7 +54,7 @@ const updateUnitById = async (id: string, payload: TUnit) => {
 const deleteUnitById = async (id: string) => {
     try {
         const deletedUnit = await Unit.findByIdAndUpdate(id, {
-            isDelete: true
+            isDeleted: true
         }, { new: true })
         return deletedUnit
     } catch (error) {
