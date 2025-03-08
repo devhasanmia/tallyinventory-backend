@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UnitRoutes } from "../modules/Unit/unit.route";
 import { CategoryRoutes } from "../modules/Category/category.route";
+import { ProductRoutes } from "../modules/Product/product.route";
 
 const router = Router();
 
@@ -13,6 +14,10 @@ const routes = [
         path: "/category",
         route: CategoryRoutes
     },
+    {
+        path: "/product",
+        route: ProductRoutes
+    }
 ]
 
 routes.forEach((element) => {
