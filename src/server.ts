@@ -12,8 +12,8 @@ async function main() {
         app.listen(config.port, () => {
             console.log(`🚀 Listening at http://localhost:${config.port}`)
         })
-        defaultUnitSeed()
-        defaultCategorySeed()
+        defaultUnitSeed();
+        defaultCategorySeed();
     } catch (error) {
         console.log(error)
     }

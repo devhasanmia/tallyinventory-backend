@@ -1,4 +1,6 @@
 import { buildQuery } from "../../builder/QueryBuilder";
+import AppError from "../../utils/AppError";
+import { defaultCategory } from "../../utils/DefaultData/defaultCategory";
 import Category from "./category.model";
 import { TCategory } from "./category.type";
 
@@ -48,6 +50,12 @@ const getCategoryById = async (id: string) => {
 // Update: updateCategoryById
 const updateCategoryById = async (id: string, payload: Partial<TCategory>) => {
     try {
+        const defaultCategoryExist = await Category.findOne({
+            name: defaultCategory.name,
+        });
+        if (defaultCategoryExist && defaultCategoryExist.id === id) {
+            throw new AppError(400, "Cannot Update the Default Category");
+        }
         const data = await Category.findByIdAndUpdate(id, payload, { new: true });
         if (!data) {
             throw new Error("Category not found");
@@ -61,6 +69,12 @@ const updateCategoryById = async (id: string, payload: Partial<TCategory>) => {
 // Delete: deleteCategoryById
 const deleteCategoryById = async (id: string) => {
     try {
+        const defaultCategoryExist = await Category.findOne({
+            name: defaultCategory.name,
+        });
+        if (defaultCategoryExist && defaultCategoryExist.id === id) {
+            throw new AppError(400, "Cannot Delete the Default Category");
+        }
         const data = await Category.findByIdAndUpdate(id, {
             isDeleted: true
         }, { new: true })
@@ -70,7 +84,7 @@ const deleteCategoryById = async (id: string) => {
     }
 };
 
-export const CategoriesService =  {
+export const CategoriesService = {
     createCategory,
     getAllCategories,
     getCategoryById,

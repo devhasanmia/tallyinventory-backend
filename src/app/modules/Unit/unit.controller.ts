@@ -1,5 +1,7 @@
 import { RequestHandler } from "express"
 import { UnitService } from "./unit.service";
+import Unit from "./unit.model";
+import { defaultUnit } from "../../utils/DefaultData/defaultUnit";
 
 // Create: create Unit
 const createUnit: RequestHandler = async (req, res, next) => {
@@ -58,16 +60,19 @@ const updateUnitById: RequestHandler = async (req, res, next) => {
 // Delete: deleteUnitById
 const deleteUnitById: RequestHandler = async (req, res, next) => {
     try {
+        // Proceed to delete the unit by ID
         await UnitService.deleteUnitById(req.params.id);
         res.status(200).json({
             success: true,
-            message: "Unit Deleted successfully",
-            data: []
+            message: "Unit deleted successfully",
+            data: [],
         });
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
+
+
 
 // Export Unit Controller
 export const UnitController = {

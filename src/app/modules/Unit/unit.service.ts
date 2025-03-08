@@ -1,4 +1,6 @@
 import {buildQuery } from "../../builder/QueryBuilder";
+import AppError from "../../utils/AppError";
+import { defaultUnit } from "../../utils/DefaultData/defaultUnit";
 import Unit from "./unit.model";
 import { TUnit } from "./unit.type";
 
@@ -44,6 +46,13 @@ const getUnitById = async (id: string) => {
 // Update: updateUnitById
 const updateUnitById = async (id: string, payload: TUnit) => {
     try {
+        const defaultUnitExist = await Unit.findOne({
+            name: defaultUnit.name,
+            abbreviation: defaultUnit.abbreviation
+        });
+        if (defaultUnitExist && defaultUnitExist.id === id) {
+            throw new AppError(400, "Cannot Update the Default Unit");
+        }
         const updateUnit = await Unit.findByIdAndUpdate(id, payload, { new: true })
         return updateUnit
     } catch (error) {
@@ -53,9 +62,17 @@ const updateUnitById = async (id: string, payload: TUnit) => {
 // Delete: deleteUnitById
 const deleteUnitById = async (id: string) => {
     try {
+        const defaultUnitExist = await Unit.findOne({
+            name: defaultUnit.name,
+            abbreviation: defaultUnit.abbreviation
+        });
+        if (defaultUnitExist && defaultUnitExist.id === id) {
+            throw new AppError(400, "Cannot delete the Default Unit");
+        }
         const deletedUnit = await Unit.findByIdAndUpdate(id, {
             isDeleted: true
         }, { new: true })
+
         return deletedUnit
     } catch (error) {
         throw error
