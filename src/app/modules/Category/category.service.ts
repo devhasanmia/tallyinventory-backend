@@ -1,3 +1,4 @@
+import { buildQuery } from "../../builder/QueryBuilder";
 import Category from "./category.model";
 import { TCategory } from "./category.type";
 
@@ -12,10 +13,20 @@ const createCategory = async (payload: TCategory) => {
 };
 
 // Read (All): getAllCategories
-const getAllCategories = async () => {
+const getAllCategories = async (query: Record<string, unknown>) => {
     try {
-        const data = await Category.find().sort("");
-        return data;
+        const modelQuery = Category.find();
+        const searchableFields = ['name'];
+        const { query: finalQuery, totalStats, } = await buildQuery(
+            modelQuery,
+            query,
+            searchableFields,
+        );
+        const data = await finalQuery;;
+        return {
+            data,
+            totalStats,
+        };
     } catch (error) {
         throw error;
     }
@@ -50,17 +61,16 @@ const updateCategoryById = async (id: string, payload: Partial<TCategory>) => {
 // Delete: deleteCategoryById
 const deleteCategoryById = async (id: string) => {
     try {
-        const data = await Category.findByIdAndDelete(id);
-        if (!data) {
-            throw new Error("Category not found");
-        }
+        const data = await Category.findByIdAndUpdate(id, {
+            isDeleted: true
+        }, { new: true })
         return data;
     } catch (error) {
         throw error;
     }
 };
 
-export {
+export const CategoriesService =  {
     createCategory,
     getAllCategories,
     getCategoryById,

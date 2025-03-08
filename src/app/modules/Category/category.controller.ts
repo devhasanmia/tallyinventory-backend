@@ -1,12 +1,12 @@
 import { RequestHandler } from "express";
 import Category from "./category.model";
+import { CategoriesService } from "./category.service";
 
 // Create: createCategory
 const createCategory: RequestHandler = async (req, res, next) => {
     try {
         const payload = req.body;
-        const data = await Category.create(payload);
-
+        const data = await CategoriesService.createCategory(payload);
         res.status(201).json({
             success: true,
             message: "Category created successfully",
@@ -20,12 +20,14 @@ const createCategory: RequestHandler = async (req, res, next) => {
 // Read (All): getAllCategories
 const getAllCategories: RequestHandler = async (req, res, next) => {
     try {
-        const data = await Category.find();
+        const data = await CategoriesService.getAllCategories(req.query);
         res.status(200).json({
             success: true,
             message: "Categories retrieved successfully",
-            data,
+            data: data.data,
+            totalStats: data.totalStats
         });
+
     } catch (error) {
         next(error);
     }
@@ -35,7 +37,7 @@ const getAllCategories: RequestHandler = async (req, res, next) => {
 const getCategoryById: RequestHandler = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const data = await Category.findById(id);
+        const data = await CategoriesService.getCategoryById(id);
         res.status(200).json({
             success: true,
             message: "Category retrieved successfully",
@@ -51,7 +53,7 @@ const updateCategoryById: RequestHandler = async (req, res, next) => {
     try {
         const { id } = req.params;
         const payload = req.body;
-        const data = await Category.findByIdAndUpdate(id, payload, { new: true });
+        const data = await CategoriesService.updateCategoryById(id, payload);
         res.status(200).json({
             success: true,
             message: "Category updated successfully",
@@ -66,7 +68,7 @@ const updateCategoryById: RequestHandler = async (req, res, next) => {
 const deleteCategoryById: RequestHandler = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const data = await Category.findByIdAndDelete(id);
+        const data = await CategoriesService.deleteCategoryById(id);
         res.status(200).json({
             success: true,
             message: "Category deleted successfully",
