@@ -15,6 +15,16 @@ export type TProduct = {
     category: Types.ObjectId,
     unit: Types.ObjectId,
     barcode: string,
-    photo: string
+    photo: string,
+    dealer: string,
+    quantity: string,
+    purchasePrice: number,
+    sellingPrice: number,
+    totalPrice: number,
+    discount: number,
+    discountedPrice: number,
+    paymentMethod: "Cash" | "bKash" | "Nagad" | "Upay" | "Bank Payment",
+    additionalCosts: number,
+    notes: string,
     isDeleted?: string
 };
