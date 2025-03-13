@@ -2,7 +2,7 @@ import { Router } from "express";
 import { UnitRoutes } from "../modules/Unit/unit.route";
 import { CategoryRoutes } from "../modules/Category/category.route";
 import { ProductRoutes } from "../modules/Product/product.route";
-import { ExpensesRoutes } from "../modules/expenses/category.route";
+import { ExpensesRoutes } from "../modules/Expenses/expenses.route";
 
 const router = Router();
 

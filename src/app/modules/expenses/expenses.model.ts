@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { TExpenses } from "./category.type";
+import { TExpenses } from "./expenses.type";
 
 const expensesSchema = new Schema<TExpenses>({
     expenses: {

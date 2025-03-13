@@ -1,14 +1,14 @@
 import { RequestHandler } from "express";
-import { ProductService } from "./product.service";
+import { StockService } from "./product.service";
 
-// Create: create Product
-const createProduct: RequestHandler = async (req, res, next) => {
+// Create: stock Purchase
+const stockPurchase: RequestHandler = async (req, res, next) => {
     try {
         const payload = req.body;
-        const data = await ProductService.createProduct(payload);
+        const data = await StockService.stockPurchase(payload);
         res.status(201).json({
             success: true,
-            message: "Category created successfully",
+            message: "Stock created successfully",
             data,
         });
     } catch (error) {
@@ -22,6 +22,6 @@ const createProduct: RequestHandler = async (req, res, next) => {
 // Delete: deleteCategoryById
 
 // Export all controller functions
-export const ProductController = {
-    createProduct,
+export const StockController = {
+    stockPurchase,
 };

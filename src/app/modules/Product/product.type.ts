@@ -24,7 +24,7 @@ export type TProduct = {
     discount: number,
     discountedPrice: number,
     paymentMethod: "Cash" | "bKash" | "Nagad" | "Upay" | "Bank Payment",
-    additionalCosts: number,
+    additionalCosts?: number,
     notes: string,
     isDeleted?: string
 };
