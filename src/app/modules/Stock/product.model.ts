@@ -1,7 +1,7 @@
 import { model, Query, Schema } from "mongoose";
-import { TStockPurchase } from "./product.type";
+import { TStock } from "./product.type";
 
-const stockPurchaseSchema = new Schema<TStockPurchase>(
+const stockPurchaseSchema = new Schema<TStock>(
     {
         product: {
             type: Schema.Types.ObjectId,
