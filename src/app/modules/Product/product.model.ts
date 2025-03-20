@@ -37,8 +37,8 @@ const productSchema = new Schema<TProduct>(
         },
         barcode: {
             type: String,
-            required: true,
             unique: true,
+            default: "12345678"
         },
         photo: {
             type: String,

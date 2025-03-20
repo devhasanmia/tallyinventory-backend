@@ -10,7 +10,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         statusCode = err.statusCode;
         message = err.message;
         errors = err.errors;
-    }else if (err instanceof ZodError) {
+    } else if (err instanceof ZodError) {
         statusCode = 400;
         message = "Validation Error";
         errors = err.errors.map((error: any) => ({
@@ -28,7 +28,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
             path: extractedPath,
             message: `The provided ${extractedValue} already exists. Please use a different ${extractedPath}.`,
         }]
-        }else if (err.name === 'ValidationError') {
+    } else if (err.name === 'ValidationError') {
+        console.log(err)
         statusCode = 400;
         message = "Validation Error";
         errors = Object.values(err.errors).map((error: any) => ({
