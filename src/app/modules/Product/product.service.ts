@@ -12,6 +12,7 @@ const createProduct = async (payload: TProduct) => {
     }
 };
 
+
 // Read (All): getAllCategories
 
 // Read (By ID): getCategoryById
