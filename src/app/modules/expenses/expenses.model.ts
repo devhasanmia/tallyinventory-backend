@@ -13,6 +13,6 @@ const expensesSchema = new Schema<TExpenses>({
     }
 }, { timestamps: true });
 
-const Expenses = model<TExpenses>("Expenses", expensesSchema);
+const Expenses = model<TExpenses>("Expense", expensesSchema);
 
 export default Expenses;
