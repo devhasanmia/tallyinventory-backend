@@ -91,6 +91,6 @@ stockPurchaseSchema.pre("aggregate", function(next) {
     next();
 });
 
-const ProductStock = model<TStockPurchase>("ProductStock", stockPurchaseSchema);
+const ProductStock = model<TStock>("ProductStock", stockPurchaseSchema);
 
 export default ProductStock

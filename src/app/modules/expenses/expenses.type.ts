@@ -1,5 +1,5 @@
 export type TExpenses = {
-    expenses: string;
-    amount: number,
-    note: string,
+    expenses?: string;
+    amount?: number,
+    note?: string,
 };
