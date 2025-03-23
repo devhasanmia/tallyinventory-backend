@@ -1,7 +1,5 @@
 import { RequestHandler } from "express"
 import { UnitService } from "./unit.service";
-import Unit from "./unit.model";
-import { defaultUnit } from "../../utils/DefaultData/defaultUnit";
 
 // Create: create Unit
 const createUnit: RequestHandler = async (req, res, next) => {

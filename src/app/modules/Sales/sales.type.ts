@@ -1,10 +1,13 @@
 import { Types } from "mongoose";
-
+export interface TProduct {
+    productId: string | Types.ObjectId; // MongoDB ObjectId (as string or ObjectId)
+    quantity: number; // Quantity of the product
+}
 export type TSales = {
     invoice: string;
     customer: Types.ObjectId;
     status: "Placed" | "Confirmed" | "Shipped" | "Delivered" | "Canceled";  
-    product: Types.ObjectId[];
+    product: TProduct;
     discount?: number;
     totalAmount?: number;
     paidPayment: number;
