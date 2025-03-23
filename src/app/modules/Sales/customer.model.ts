@@ -55,6 +55,36 @@ const salesSchema = new Schema<TSales>(
     { timestamps: true }
 );
 
+
+// salesSchema.pre("save", async function (next) {
+//     const sales = this;
+
+//     // Skip if invoice is already set (e.g., during updates)
+//     if (sales.invoice) {
+//         return next();
+//     }
+
+//     try {
+//         // Query the database to find the latest invoice
+//         const latestSale = await mongoose.model("Sales").findOne().sort({ invoice: -1 });
+
+//         let nextInvoice;
+//         if (latestSale && latestSale.invoice) {
+//             const parts = latestSale.invoice.split("-");
+//             console.log(parts)
+//         } else {
+//             nextInvoice = "SALE-1";
+//         }
+
+//         sales.invoice = nextInvoice; // Assign the generated invoice
+//         next();
+//     } catch (error) {
+//         next(error); // Pass errors to Mongoose
+//     }
+// });
+
+
+
 const Sales = model<TSales>("Sale", salesSchema);
 
 export default Sales;
