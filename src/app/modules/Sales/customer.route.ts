@@ -1,9 +1,9 @@
 import express from 'express';
-import { CustomerController } from './customer.controller';
+import { SalesController } from './sales.controller';
 const router = express.Router();
 
 // Create: create customer
-router.post("/create-customer", CustomerController.createCustomer);
+router.post("/create-sales", SalesController.createSales);
 
 // Read (All): getAllCategories
 
@@ -14,5 +14,5 @@ router.post("/create-customer", CustomerController.createCustomer);
 // Delete: deleteCategoryById
 
 
-export const CustomerRoutes = router;
+export const SalesRoutes = router;
 
