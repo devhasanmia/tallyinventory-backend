@@ -36,6 +36,7 @@ const salesSchema = new Schema<TSales>(
         },
         totalAmount: {
             type: Number,
+            default: 0
         },
         paidPayment: {
             type: Number,
