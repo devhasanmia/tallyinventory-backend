@@ -5,7 +5,6 @@ const salesSchema = new Schema<TSales>(
     {
         invoice: {
             type: String,
-            unique: true,
         },
         customer: {
             type: Schema.Types.ObjectId,
@@ -25,10 +24,10 @@ const salesSchema = new Schema<TSales>(
                 },
             }
         ],
-        status: {
+        orderStatus: {
             type: String,
             enum: ["Placed", "Confirmed", "Shipped", "Delivered", "Canceled"],
-            required: true,
+            default: "Placed"
         },
         discount: {
             type: Number,

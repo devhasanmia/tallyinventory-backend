@@ -15,6 +15,18 @@ const createSales = async (payload: TSales) => {
             throw new AppError(400, "Invalid payload: 'product' must be an array.");
         }
 
+        if (typeof payload.paidPayment !== 'number' || payload.paidPayment < 0) {
+            throw new AppError(400, "'paidPayment' must be a valid non-negative number.");
+        }
+
+        if (payload.discount && (typeof payload.discount !== 'number' || payload.discount < 0)) {
+            throw new AppError(400, "'discount' must be a valid non-negative number.");
+        }
+
+        if (payload.product.length === 0) {
+            throw new AppError(400, "'product' array cannot be empty.");
+        }
+
         let totalAmount: number = 0;
 
         // Calculate total amount
@@ -43,10 +55,18 @@ const createSales = async (payload: TSales) => {
             );
         }
 
-        // Generate unique invoice number
-        
-        // Set total amount
+        // Generate unique invoice number (if needed)
+        // Example: payload.invoiceNumber = `INV-${Date.now()}`;
+
+        // Set total amount and payment status
         payload.totalAmount = totalAmount;
+        if (payload.paidPayment === totalAmount) {
+            payload.paymentStatus = "Paid";
+        } else if (payload.paidPayment >= 1) {
+            payload.paymentStatus = "Partially Paid";
+        } else {
+            payload.paymentStatus = "Unpaid";
+        }
 
         // Create sales entry
         const data = await Sales.create([payload], { session });

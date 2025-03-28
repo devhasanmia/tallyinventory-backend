@@ -6,11 +6,11 @@ export interface TProduct {
 export type TSales = {
     invoice: string;
     customer: Types.ObjectId;
-    status: "Placed" | "Confirmed" | "Shipped" | "Delivered" | "Canceled";  
+    orderStatus: "Placed" | "Confirmed" | "Shipped" | "Delivered" | "Canceled";  
     product: TProduct;
     discount?: number;
     totalAmount?: number;
     paidPayment: number;
-    paymentStatus: "Paid" | "Unpaid" | "Partially Paid";
+    paymentStatus?: "Paid" | "Unpaid" | "Partially Paid";
     notes?: string;
 };
