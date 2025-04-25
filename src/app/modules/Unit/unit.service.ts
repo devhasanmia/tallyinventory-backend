@@ -1,4 +1,4 @@
-import {buildQuery } from "../../builder/QueryBuilder";
+import {applySort, buildQuery } from "../../builder/QueryBuilder";
 import AppError from "../../utils/AppError";
 import { defaultUnit } from "../../utils/DefaultData/defaultUnit";
 import Unit from "./unit.model";
@@ -17,7 +17,7 @@ const createUnit = async (payload: TUnit) => {
 // Read (All): getAllUnits
 const getAllUnits = async (query: Record<string, unknown>) => {
     try {
-        const modelQuery = Unit.find();
+        const modelQuery = Unit.find().sort();
         const searchableFields = ['name', 'abbreviation'];
         const { query: finalQuery, totalStats, } = await buildQuery(
             modelQuery,

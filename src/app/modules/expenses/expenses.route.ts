@@ -1,18 +1,18 @@
-import express from 'express';
-import { ExpensesController } from './expenses.controller';
-const router = express.Router();
+// import express from 'express';
+// // import { ExpensesController } from './expenses.controller';
+// const router = express.Router();
 
-// Create: create expenses
-router.post("/create-expenses", ExpensesController.createExpenses);
+// // Create: create expenses
+// router.post('/create-expenses', ExpensesController.createExpenses);
 
-// Read (All): getAllCategories
+// // Read (All): getAllCategories
+// router.get('/get-all-expenses', ExpensesController.getAllExpenses);
+// // Read (By ID): getCategoryById
 
-// Read (By ID): getCategoryById
+// // Update: updateCategoryById
 
-// Update: updateCategoryById
-
-// Delete: deleteCategoryById
+// // Delete: deleteCategoryById
 
 
-export const ExpensesRoutes = router;
+// export const ExpensesRoutes = router;
 

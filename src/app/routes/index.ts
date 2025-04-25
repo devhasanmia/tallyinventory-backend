@@ -2,7 +2,6 @@ import { Router } from "express";
 import { UnitRoutes } from "../modules/Unit/unit.route";
 import { CategoryRoutes } from "../modules/Category/category.route";
 import { ProductRoutes } from "../modules/Product/product.route";
-import { ExpensesRoutes } from "../modules/Expenses/expenses.route";
 import { CustomerRoutes } from "../modules/Customer/customer.route";
 import { SalesRoutes } from "../modules/Sales/customer.route";
 
@@ -21,10 +20,10 @@ const routes = [
         path: "/product",
         route: ProductRoutes
     },
-    {
-        path: "/expenses",
-        route: ExpensesRoutes
-    },
+    // {
+    //     path: "/expenses",
+    //     route: ExpensesRoutes
+    // },
     {
         path: "/customer",
         route: CustomerRoutes
