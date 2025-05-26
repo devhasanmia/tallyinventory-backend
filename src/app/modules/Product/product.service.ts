@@ -1,8 +1,8 @@
 
 import mongoose from "mongoose";
-import Expenses from "../Expenses/expenses.model";
 import Product from "./product.model";
 import { TProduct } from "./product.type";
+import Expenses from "../expenses/expenses.model";
 
 // Create: Create Product
 const createProduct = async (payload: TProduct) => {

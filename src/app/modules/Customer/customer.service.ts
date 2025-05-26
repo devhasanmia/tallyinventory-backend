@@ -14,8 +14,19 @@ const createCustomer = async (payload: TCustomer) => {
     }
 };
 
+// Read (All): getAllCustomers
+const getAllCustomers = async () => {
+    try {
+        const data = await Customer.find();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 
 export const CustomerService = {
-    createCustomer
+    createCustomer,
+    getAllCustomers
 }

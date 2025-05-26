@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/create-customer", CustomerController.createCustomer);
 
 // Read (All): getAllCategories
+router.get("/getAllCustomers", CustomerController.getAllCustomer)
 
 // Read (By ID): getCategoryById
 

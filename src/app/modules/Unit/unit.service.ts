@@ -43,6 +43,7 @@ const getUnitById = async (id: string) => {
         throw error
     }
 }
+
 // Update: updateUnitById
 const updateUnitById = async (id: string, payload: TUnit) => {
     try {
@@ -69,10 +70,7 @@ const deleteUnitById = async (id: string) => {
         if (defaultUnitExist && defaultUnitExist.id === id) {
             throw new AppError(400, "Cannot delete the Default Unit");
         }
-        const deletedUnit = await Unit.findByIdAndUpdate(id, {
-            isDeleted: true
-        }, { new: true })
-
+        const deletedUnit = await Unit.findByIdAndDelete(id)
         return deletedUnit
     } catch (error) {
         throw error
@@ -87,10 +85,3 @@ export const UnitService = {
     updateUnitById,
     deleteUnitById
 }
-
-
-// const data = await Unit.find({
-//     $or: ["name", "abbreviation"].map((field) => ({
-//       [field]: { $regex: searchTerm, $options: "i" },
-//     })),
-//   });  

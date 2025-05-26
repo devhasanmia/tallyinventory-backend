@@ -17,21 +17,20 @@ const createCustomer: RequestHandler = async (req, res, next) => {
 };
 
 // Read (All): getAllCategories
-// const getAllCategories: RequestHandler = async (req, res, next) => {
-//     try {
-//         const data = await CategoriesService.getAllCategories(req.query);
-//         res.status(200).json({
-//             success: true,
-//             message: "Categories retrieved successfully",
-//             data: data.data,
-//             totalStats: data.totalStats
-//         });
-
-//     } catch (error) {
-//         next(error);
-//     }
-// };
+const getAllCustomer: RequestHandler = async (req, res, next) => {
+    try {
+        const data = await CustomerService.getAllCustomers();
+        res.status(200).json({
+            success: true,
+            message: "Categories retrieved successfully",
+            data: data,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const CustomerController = {
-    createCustomer
+    createCustomer,
+    getAllCustomer
 }
