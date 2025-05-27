@@ -5,7 +5,7 @@ import { CustomerService } from "./customer.service";
 const createCustomer: RequestHandler = async (req, res, next) => {
     try {
         const payload = req.body;
-        const data = await CustomerService.createCustomer(payload);
+        const data = await CustomerService.createCustomer(req.file, payload);
         res.status(201).json({
             success: true,
             message: "Customer created successfully",
@@ -22,7 +22,7 @@ const getAllCustomer: RequestHandler = async (req, res, next) => {
         const data = await CustomerService.getAllCustomers();
         res.status(200).json({
             success: true,
-            message: "Categories retrieved successfully",
+            message: "Customer retrieved successfully",
             data: data,
         });
     } catch (error) {
