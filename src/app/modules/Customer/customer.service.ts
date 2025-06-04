@@ -31,10 +31,10 @@ const createCustomer = async (file: any, payload: TCustomer) => {
 // Read (All): getAllCustomers
 const getAllCustomers = async () => {
   try {
-    const data = await Customer.find();
-    return data;
+    const customers = await Customer.find().sort({ createdAt: -1 });
+    return customers;
   } catch (error) {
-    throw error;
+    throw new Error('Could not retrieve customers');
   }
 };
 

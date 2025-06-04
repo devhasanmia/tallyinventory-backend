@@ -1,6 +1,5 @@
-import { model, Query, Schema, startSession } from "mongoose";
+import { model, Query, Schema } from "mongoose";
 import { TProduct } from "./product.type";
-import Expenses from "../Expenses/expenses.model";
 
 const productSchema = new Schema<TProduct>(
     {
