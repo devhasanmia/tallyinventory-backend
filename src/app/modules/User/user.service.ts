@@ -44,8 +44,8 @@ const login = async (payload: Pick<TUser, "email" | "password">) => {
             otp: otpGen,
             expiresAt: new Date(Date.now() + 5 * 60 * 1000)
         }], { session });
-        await sendEmail(user.email, `আপনার Hafsa Smart Solution লগইনের OTP কোড`, OtpVerificationEmail(user.name, otpGen));
         // Generate JWT Token
+        await sendEmail(user.email, `আপনার Hafsa Smart Solution লগইনের OTP কোড`, OtpVerificationEmail(user.name, otpGen));
         const token = jwt.sign(
             { userId: user._id, email: user.email },
             config.JWT_SECRET as string,
@@ -64,8 +64,7 @@ const login = async (payload: Pick<TUser, "email" | "password">) => {
     }
 };
 
-
-export const verifyOTP = async (userId: string, otp: string) => {
+const verifyOTP = async (userId: string, otp: string) => {
     const user = await User.findById(userId);
     if (!user) {
         throw new Error("ইউজার পাওয়া যায়নি");
@@ -88,5 +87,6 @@ export const verifyOTP = async (userId: string, otp: string) => {
 
 export const UserService = {
     createUser,
-    login
+    login,
+    verifyOTP
 }
