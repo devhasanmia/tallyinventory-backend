@@ -4,10 +4,15 @@ import { CategoryRoutes } from "../modules/Category/category.route";
 import { ProductRoutes } from "../modules/Product/product.route";
 import { CustomerRoutes } from "../modules/Customer/customer.route";
 import { SalesRoutes } from "../modules/Sales/customer.route";
+import { UserRoutes } from "../modules/User/user.route";
 
 const router = Router();
 
 const routes = [
+    {
+        path: "/user",
+        route: UserRoutes
+    },
     {
         path: "/unit",
         route: UnitRoutes
@@ -20,10 +25,6 @@ const routes = [
         path: "/product",
         route: ProductRoutes
     },
-    // {
-    //     path: "/expenses",
-    //     route: ExpensesRoutes
-    // },
     {
         path: "/customer",
         route: CustomerRoutes

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { TUser } from "./user.type";
-
+import bcrypt from "bcrypt";
 const userSchema = new Schema<TUser>({
     name: {
         type: String,
@@ -41,7 +41,7 @@ const userSchema = new Schema<TUser>({
         required: true
     },
     salary: {
-        type: String,
+        type: Number,
     },
     joiningDate: {
         type: String,
@@ -63,6 +63,13 @@ const userSchema = new Schema<TUser>({
     },
 }, { timestamps: true })
 
+// Hash password before saving
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  const saltRounds = 10;
+  this.password = await bcrypt.hash(this.password, saltRounds);
+  next();
+});
 
 const User = model<TUser>("User", userSchema);
 
