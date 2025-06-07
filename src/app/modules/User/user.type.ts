@@ -1,3 +1,4 @@
+
 export type TDesignation = "Business Owner" | "Sales Executive";
 export type TUserStatus = "active" | "inactive";
 export type TVerification = "verified" | "unverified" | "pending";
@@ -22,3 +23,4 @@ export type TUser = {
     status?: TUserStatus;
     verification?: TVerification,
 };
+

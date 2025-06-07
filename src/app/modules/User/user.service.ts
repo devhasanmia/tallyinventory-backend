@@ -47,7 +47,7 @@ const login = async (payload: Pick<TUser, "email" | "password">) => {
         // Generate JWT Token
         await sendEmail(user.email, `আপনার Hafsa Smart Solution লগইনের OTP কোড`, OtpVerificationEmail(user.name, otpGen));
         const token = jwt.sign(
-            { userId: user._id, email: user.email },
+            { userId: user._id, email: user.email, designation: user.designation},
             config.JWT_SECRET as string,
             { expiresIn: "20m" as const }
         );
