@@ -65,24 +65,35 @@ const login = async (payload: Pick<TUser, "email" | "password">) => {
 };
 
 const verifyOTP = async (userId: string, otp: string) => {
-    const user = await User.findById(userId);
-    if (!user) {
-        throw new Error("ইউজার পাওয়া যায়নি");
+    const session = await mongoose.startSession();
+    try {
+        session.startTransaction();
+        const existingOtp = await Otp.findOne({ user: userId, otp })
+            .sort({ createdAt: -1 })
+            .session(session);
+        if (!existingOtp) {
+            throw new AppError(404, "OTP not found.");
+        }
+        if (!existingOtp.expiresAt || existingOtp.expiresAt < new Date()) {
+            throw new AppError(400, "OTP has expired.");
+        }
+        await Otp.deleteOne({ _id: existingOtp._id }).session(session);
+        await session.commitTransaction();
+        session.endSession();
+        return {
+            message: "OTP verified successfully.",
+            data: {
+                userId: existingOtp.user,
+                otp: existingOtp.otp,
+            },
+        };
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
     }
-    const otpEntry = await Otp.findOne({ user: userId }).sort({ createdAt: -1 });
-    if (!otpEntry) {
-        throw new Error("OTP পাওয়া যায়নি");
-    }
-    const now = new Date();
-    if (otpEntry.otp !== Number(otp) || (otpEntry.expiresAt && now > otpEntry.expiresAt)) {
-        throw new Error("OTP ভুল অথবা মেয়াদোত্তীর্ণ");
-    }
-    await Otp.deleteMany({ user: userId });
-    return {
-        message: "সফলভাবে লগইন হয়েছে",
-        user,
-    };
 };
+
 
 
 export const UserService = {
