@@ -70,7 +70,7 @@ const login = async (payload: Pick<TUser, "email" | "password">) => {
         const otpAccessToken = jwt.sign(
             { email: user.email },
             config.JWT_SECRET as string,
-            { expiresIn: "5d" }
+            { expiresIn: "5m" }
         );
 
         await session.commitTransaction();
@@ -121,7 +121,7 @@ const verifyOTP = async (email: string, otp: string) => {
         const accessToken = jwt.sign(
             { userId: user._id, email: user.email, designation: user.designation },
             config.JWT_SECRET as string,
-            { expiresIn: "20d" }
+            { expiresIn: "1d" }
         );
 
         await session.commitTransaction();
