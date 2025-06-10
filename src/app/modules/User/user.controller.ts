@@ -1,8 +1,7 @@
 import { RequestHandler } from "express";
 import { UserService } from "./user.service";
 import { JwtPayload } from "jsonwebtoken";
-import Otp from "../otp/otp.model";
-import AppError from "../../utils/AppError";
+
 
 const createUser: RequestHandler = async (req, res, next) => {
     try {

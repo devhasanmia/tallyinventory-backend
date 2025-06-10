@@ -3,12 +3,14 @@ import cors from "cors"
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
 import router from './app/routes';
+import deviceInfoMiddleware from './app/utils/detectDevice';
 const app: Application = express()
 
 // Parse incoming JSON requests
 app.use(express.json());
 // Enable CORS for cross-origin requests
 app.use(cors());
+app.use(deviceInfoMiddleware);
 
 // Health Route
 app.get("/api/v1/health", (req, res) => {

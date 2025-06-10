@@ -18,6 +18,8 @@ const createUnit: RequestHandler = async (req, res, next) => {
 const getAllUnits: RequestHandler = async (req, res, next) => {
     try {
         const query = req.query;
+        const device = req.deviceInfo;
+        console.log(device?.client?.name)
         const result = await UnitService.getAllUnits(query);
         res.status(200).json({
             success: true,

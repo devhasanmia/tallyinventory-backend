@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { JwtPayload } from "jsonwebtoken";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import AppError from "../utils/AppError";
 import config from "../config";
 import { TDesignation } from "../modules/User/user.type";
+import Session from "../modules/Session/session.model";
+import { DeviceDetectorResult } from "device-detector-js";
+import deviceInfoMiddleware from "../utils/detectDevice";
 
 declare global {
   namespace Express {
@@ -15,30 +17,49 @@ declare global {
         iat?: number;
         exp?: number;
       };
+      deviceInfo?: DeviceDetectorResult;
     }
   }
 }
 
 const authenticate = (...allowedDesignations: TDesignation[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const authorizationHeader = req.headers.authorization;
-      if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-        throw new AppError(401, "You are not authorized");
+      const authHeader = req.headers.authorization;
+      const deviceId = req.headers["x-device-id"] as string; // custom header
+
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        throw new AppError(401, "Unauthorized access");
       }
-      const token = authorizationHeader.split(" ")[1];
-      const decodedToken = jwt.verify(token, config.JWT_SECRET as string) as JwtPayload;
-      const currentUserDesignation = decodedToken.designation as TDesignation;
+      deviceInfoMiddleware(req, res, next)
+      const token = authHeader.split(" ")[1];
+      const decoded = jwt.verify(token, config.JWT_SECRET as string) as JwtPayload;
+
+      // Check session in DB
+      const session = await Session.findOne({
+        userId: decoded.userId,
+        token,
+        deviceId,
+        isActive: true,
+      });
+
+      if (!session) {
+        throw new AppError(401, "Session invalid or logged out from this device");
+      }
+
+      const currentUserDesignation = decoded.designation as TDesignation;
       if (allowedDesignations.length && !allowedDesignations.includes(currentUserDesignation)) {
-        throw new AppError(403, "You have no access to this route");
+        throw new AppError(403, "You do not have access to this route");
       }
+
       req.user = {
-        userId: decodedToken.userId,
-        email: decodedToken.email,
+        userId: decoded.userId,
+        email: decoded.email,
         designation: currentUserDesignation,
-        iat: decodedToken.iat,
-        exp: decodedToken.exp,
+        iat: decoded.iat,
+        exp: decoded.exp,
       };
+
       next();
     } catch (error) {
       if (error instanceof AppError) {

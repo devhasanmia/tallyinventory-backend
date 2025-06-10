@@ -5,7 +5,7 @@ import { loginLimiter } from "../../utils/loginLimiter";
 const router = express.Router();
 
 // Create: create Unit
-router.post("/create-user", UserController.createUser);
+router.post("/create-user", authenticate("Business Owner", "Sales Executive"), UserController.createUser);
 router.post("/auth/login", loginLimiter, UserController.login);
 router.post("/auth/verify-otp", authenticate("Business Owner", "Sales Executive"), loginLimiter, UserController.verifyOTP);
 
