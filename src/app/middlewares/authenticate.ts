@@ -26,32 +26,15 @@ const authenticate = (...allowedDesignations: TDesignation[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
-      const deviceId = req.headers["x-device-id"] as string; // custom header
-
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
         throw new AppError(401, "Unauthorized access");
       }
-      deviceInfoMiddleware(req, res, next)
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, config.JWT_SECRET as string) as JwtPayload;
-
-      // Check session in DB
-      const session = await Session.findOne({
-        userId: decoded.userId,
-        token,
-        deviceId,
-        isActive: true,
-      });
-
-      if (!session) {
-        throw new AppError(401, "Session invalid or logged out from this device");
-      }
-
       const currentUserDesignation = decoded.designation as TDesignation;
       if (allowedDesignations.length && !allowedDesignations.includes(currentUserDesignation)) {
         throw new AppError(403, "You do not have access to this route");
       }
-
       req.user = {
         userId: decoded.userId,
         email: decoded.email,

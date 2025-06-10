@@ -73,7 +73,7 @@ const login = async (payload: Pick<TUser, "email" | "password">) => {
         const accessToken = jwt.sign(
             { userId: user._id, email: user.email, designation: user.designation },
             config.JWT_SECRET as string,
-            { expiresIn: "20m" }
+            { expiresIn: "20d" }
         );
 
         const refreshToken = jwt.sign(
