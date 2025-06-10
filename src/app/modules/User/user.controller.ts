@@ -43,9 +43,23 @@ const verifyOTP: RequestHandler = async (req, res, next) => {
         next(error);
     }
 };
+const getUser: RequestHandler = async (req, res, next) => {
+    try {
+        const {email} = (req.user)
+        const data = await UserService.getUser(email);
+        res.status(200).json({
+            success: true,
+            message: "User Data",
+            data,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const UserController = {
     createUser,
     login,
-    verifyOTP
+    verifyOTP,
+    getUser
 }

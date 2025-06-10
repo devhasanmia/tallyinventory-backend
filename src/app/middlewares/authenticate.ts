@@ -20,17 +20,22 @@ declare global {
   }
 }
 
-const authenticate = (...allowedDesignations: TDesignation[]) => {
+export const authenticate = (...allowedDesignations: TDesignation[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
+
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
         throw new AppError(401, "Unauthorized access");
       }
+
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, config.JWT_SECRET as string) as JwtPayload;
       const currentUserDesignation = decoded.designation as TDesignation;
-      if (allowedDesignations.length && !allowedDesignations.includes(currentUserDesignation)) {
+
+      // ✅ শর্ত: যদি ডেজিগনেশন পাস করা থাকে, তাহলে শুধুমাত্র সেইগুলোই অ্যাক্সেস পাবে
+
+      if (allowedDesignations.length > 0 && !allowedDesignations.includes(currentUserDesignation)) {
         throw new AppError(403, "You do not have access to this route");
       }
       req.user = {
@@ -51,5 +56,3 @@ const authenticate = (...allowedDesignations: TDesignation[]) => {
     }
   };
 };
-
-export default authenticate;

@@ -1,6 +1,7 @@
 import express from 'express';
 import { CustomerController } from './customer.controller';
 import { upload } from '../../utils/sendImage';
+import { authenticate } from '../../middlewares/authenticate';
 const router = express.Router();
 
 // Create: create customer
@@ -15,7 +16,7 @@ router.post("/create-customer", (req, res, next) => {
 
 
 // Read (All): getAllCategories
-router.get("/getAllCustomers", CustomerController.getAllCustomer)
+router.get("/getAllCustomers", authenticate("Sales Executive", "Business Owner"), CustomerController.getAllCustomer)
 
 // Read (By ID): getCategoryById
 
