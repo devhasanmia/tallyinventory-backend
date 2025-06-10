@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
 import { UserService } from "./user.service";
-import { JwtPayload } from "jsonwebtoken";
 
 
 const createUser: RequestHandler = async (req, res, next) => {
@@ -33,8 +32,8 @@ const login: RequestHandler = async (req, res, next) => {
 const verifyOTP: RequestHandler = async (req, res, next) => {
     try {
         const { otp } = req.body;
-        const { userId } = req.user as JwtPayload
-        const data = await UserService.verifyOTP(userId, otp);
+        const {email} = (req.otpAuth)
+        const data = await UserService.verifyOTP(email, otp);
         res.status(200).json({
             success: true,
             message: "User verified successfully",

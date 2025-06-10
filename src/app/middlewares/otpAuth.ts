@@ -2,25 +2,18 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import AppError from "../utils/AppError";
 import config from "../config";
-import { TDesignation } from "../modules/User/user.type";
-import { DeviceDetectorResult } from "device-detector-js";
 
 declare global {
   namespace Express {
     interface Request {
-      user: {
-        userId: string;
+      otpAuth: {
         email: string;
-        designation?: TDesignation;
-        iat?: number;
-        exp?: number;
       };
-      deviceInfo?: DeviceDetectorResult;
     }
   }
 }
 
-const authenticate = (...allowedDesignations: TDesignation[]) => {
+const otpAuth = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
@@ -29,16 +22,8 @@ const authenticate = (...allowedDesignations: TDesignation[]) => {
       }
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, config.JWT_SECRET as string) as JwtPayload;
-      const currentUserDesignation = decoded.designation as TDesignation;
-      if (allowedDesignations.length && !allowedDesignations.includes(currentUserDesignation)) {
-        throw new AppError(403, "You do not have access to this route");
-      }
-      req.user = {
-        userId: decoded.userId,
+      req.otpAuth = {
         email: decoded.email,
-        designation: currentUserDesignation,
-        iat: decoded.iat,
-        exp: decoded.exp,
       };
 
       next();
@@ -52,4 +37,4 @@ const authenticate = (...allowedDesignations: TDesignation[]) => {
   };
 };
 
-export default authenticate;
+export default otpAuth;
