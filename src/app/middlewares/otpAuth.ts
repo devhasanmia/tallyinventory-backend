@@ -25,7 +25,6 @@ const otpAuth = () => {
       req.otpAuth = {
         email: decoded.email,
       };
-
       next();
     } catch (error) {
       if (error instanceof AppError) {
