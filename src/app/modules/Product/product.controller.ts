@@ -19,7 +19,15 @@ const createProduct: RequestHandler = async (req, res, next) => {
     }
 };
 
-// Read (All): getAllCategories
+// Read (All): getAllProducts
+const getAllProducts: RequestHandler = async (req, res, next) => {
+    const data = await ProductService.getAllProducts();
+    res.status(200).json({
+        success: true,
+        message: "re",
+        data
+    })
+}
 // Read (By ID): getCategoryById
 // Update: updateCategoryById
 // Delete: deleteCategoryById
@@ -27,4 +35,5 @@ const createProduct: RequestHandler = async (req, res, next) => {
 // Export all controller functions
 export const ProductController = {
     createProduct,
+    getAllProducts
 };

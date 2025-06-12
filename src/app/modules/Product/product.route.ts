@@ -4,7 +4,8 @@ const router = express.Router();
 
 // Create: createCategory
 router.post("/create-product", ProductController.createProduct);
-// Read (All): getAllCategories
+// Read (All): getAllProducts
+router.get("/get-all-products", ProductController.getAllProducts);
 // Read (By ID): getCategoryById
 // Update: updateCategoryById
 // Delete: deleteCategoryById

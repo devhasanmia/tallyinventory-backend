@@ -28,7 +28,17 @@ const createProduct = async (payload: TProduct) => {
     }
 };
 
-// Read (All): getAllCategories
+// Read (All): getAllProduct
+const getAllProducts = async () => {
+  try {
+    const products = await Product.find().select("name unit photo quantity sellingPrice");
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error("Failed to fetch products");
+  }
+};
+
 
 // Read (By ID): getCategoryById
 
@@ -39,5 +49,6 @@ const createProduct = async (payload: TProduct) => {
 // Delete: deleteCategoryById
 
 export const ProductService = {
-    createProduct
+    createProduct,
+    getAllProducts
 };
