@@ -31,7 +31,7 @@ const createProduct = async (payload: TProduct) => {
 // Read (All): getAllProduct
 const getAllProducts = async () => {
   try {
-    const products = await Product.find().select("name unit photo quantity sellingPrice");
+    const products = await Product.find().select("name unit photo quantity sellingPrice").populate("unit").sort({createdAt: "desc"});
     return products;
   } catch (error) {
     console.error("Error fetching products:", error);
